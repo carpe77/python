@@ -46,8 +46,11 @@ data_imputed = pd.DataFrame(data_imputed, columns=data.columns)
 X_train = data_imputed.iloc[:len(train), :]
 X_test = data_imputed.iloc[len(train):, :]
 
+# 對 y 進行縮放
+y_scaled = y / 100000
+
 # 切分訓練集和驗證集
-X_train, X_valid, y_train, y_valid = train_test_split(X_train, y, test_size=0.2, random_state=42)
+X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_scaled, test_size=0.2, random_state=42)
 
 # 使用 XGBoost 的原生接口進行訓練
 dtrain = xgb.DMatrix(X_train, label=y_train)
